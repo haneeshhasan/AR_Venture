@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AR Venture - Premium Savings & Rewards</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+        /* .prize-card {
+            transition: all 0.3s ease;
+        } */
+        /* .prize-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        } */
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .carousel-container {
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .carousel-container::-webkit-scrollbar {
+            display: none;
+        }
+        /* .prize-card {
+            transition: all 0.3s ease;
+        } */
+        .prize-card:hover {
+            transform: translateY(-5px);
+        }
+        .gradient-overlay {
+            background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 10%, rgba(255,255,255,0) 90%, rgba(255,255,255,1) 100%);
+        }
+
+
+                .prize-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .prize-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .prize-card img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .prize-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .prize-card ul {
+            margin-top: 1rem;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .prize-card li {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .prize-card {
+        isolation: isolate;
+        backface-visibility: hidden;
+        -webkit-font-smoothing: subpixel-antialiased;
+    }
+
+    .prize-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right bottom, rgba(255,255,255,0.2), transparent);
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    .prize-card:hover::before {
+        opacity: 1;
+    }
+
+    @keyframes shine {
+        0% {
+            mask-position: -100%;
+        }
+        100% {
+            mask-position: 200%;
+        }
+    }
+
+    .prize-card img {
+        transform-origin: center;
+        will-change: transform;
+    }
+    </style>
+        <script>
+
+            const carousel = document.querySelector('.carousel-container');
+                    const prevBtn = document.getElementById('prevBtn');
+                    const nextBtn = document.getElementById('nextBtn');
+                    const progressBar = document.querySelector('.progress-bar');
+                    const currentMonthSpan = document.getElementById('currentMonth');
+                    const cardWidth = 320 + 24; // card width + gap
+                    let currentPosition = 0;
+                    const totalCards = 14;
+            
+                    function updateProgress() {
+                        const progress = (currentPosition / (totalCards - 1)) * 100;
+                        progressBar.style.width = `${progress}%`;
+                        const currentMonth = Math.min(Math.floor(currentPosition) + 1, totalCards);
+                        currentMonthSpan.textContent = `Month ${currentMonth}`;
+                    }
+            
+                    nextBtn.addEventListener('click', () => {
+                        if (currentPosition < totalCards - 1) {
+                            currentPosition++;
+                            carousel.scrollLeft += cardWidth;
+                            updateProgress();
+                        }
+                    });
+            
+                    prevBtn.addEventListener('click', () => {
+                        if (currentPosition > 0) {
+                            currentPosition--;
+                            carousel.scrollLeft -= cardWidth;
+                            updateProgress();
+                        }
+                    });
+            
+                    // Touch scroll handling
+                    carousel.addEventListener('scroll', () => {
+                        currentPosition = carousel.scrollLeft / cardWidth;
+                        updateProgress();
+                    });
+            
+                    // Smooth scroll for navigation
+                    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                        anchor.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                        });
+                    });
+            
+                    // Intersection Observer for fade-in animation
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('opacity-100', 'translate-y-0');
+                                entry.target.classList.remove('opacity-0', 'translate-y-10');
+                            }
+                        });
+                    }, {
+                        threshold: 0.1
+                    });
+            
+                    document.querySelectorAll('.prize-card').forEach((el) => {
+                        el.classList.add('opacity-0', 'translate-y-10', 'transition', 'duration-1000');
+                        observer.observe(el);
+                    });
+
+
+                   
+                </script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-xl md:text-2xl font-bold text-blue-600">AR VENTURE</div>
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden flex items-center" id="mobile-menu-button">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#prizes" class="text-gray-700 hover:text-blue-600 transition">Prizes</a>
+                    <a href="#monthly" class="text-gray-700 hover:text-blue-600 transition">Monthly Rewards</a>
+                    <a href="#consolation" class="text-gray-700 hover:text-blue-600 transition">Consolation</a>
+                    <a href="#contact" class="text-gray-700 hover:text-blue-600 transition">Contact</a>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="flex flex-col space-y-4 mt-4">
+                    <a href="#prizes" class="text-gray-700 hover:text-blue-600 transition">Prizes</a>
+                    <a href="#monthly" class="text-gray-700 hover:text-blue-600 transition">Monthly Rewards</a>
+                    <a href="#consolation" class="text-gray-700 hover:text-blue-600 transition">Consolation</a>
+                    <a href="#contact" class="text-gray-700 hover:text-blue-600 transition">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient min-h-screen flex items-center pt-16">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-white space-y-6">
+                    <h1 class="text-5xl font-bold leading-tight">Transform Your Dreams Into Reality</h1>
+                    <p class="text-xl text-blue-100">Join Kerala's Premier Savings Program</p>
+                    <div class="glass-effect rounded-xl p-6 space-y-3 inline-block">
+                        <div class="text-2xl font-bold">Best Saving Plan</div>
+                        <div class="text-4xl font-bold text-yellow-400">₹1000 × 14 Months</div>
+                        <div class="text-sm text-blue-100">Over 300 winners every month</div>
+                    </div>
+                </div>
+                <div class="floating">
+                    <img src="/riyas-website/riyas/hero.png" alt="Luxury Cars" >
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Prizes -->
+    <section id="prizes" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-16">Grand Prizes</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="prize-card bg-white rounded-xl p-8 shadow-lg">
+                    <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                        <span class="text-2xl">🚗</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Vehicles</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-center">
+                            <span class="mr-2">✓</span>
+                            5 Premium Cars
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2">✓</span>
+                            8 Two Wheelers
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="prize-card bg-white rounded-xl p-8 shadow-lg">
+                    <div class="bg-yellow-100 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                        <span class="text-2xl">💰</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Gold & Cash</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-center">
+                            <span class="mr-2">✓</span>
+                            Gold Worth 15 Lakh
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2">✓</span>
+                            10 Lakh Worth Cash
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="prize-card bg-white rounded-xl p-8 shadow-lg">
+                    <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                        <span class="text-2xl">🎁</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Winners</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-center">
+                            <span class="mr-2">✓</span>
+                            210 Gold Winners
+                        </li>
+                        <li class="flex items-center">
+                            <span class="mr-2">✓</span>
+                            300 Monthly Winners
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Monthly Prizes -->
+    <section class="py-20" id="monthly">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center mb-12">
+                <h2 class="text-4xl font-bold">Monthly Bumper Prizes</h2>
+                <div class="flex gap-4">
+                    <button id="prevBtn" class="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <button id="nextBtn" class="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="relative">
+                <div class="absolute inset-0 gradient-overlay pointer-events-none z-10"></div>
+                <div class="carousel-container flex gap-6 overflow-x-auto py-4">
+                    <!-- Month 1 -->
+                    <div class="prize-card flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/riyas-website/riyas/montly/1.png" alt="Tata Punch" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="text-sm text-blue-600 font-semibold">Month 1</div>
+                            <h3 class="text-xl font-bold mt-2">Tata Punch Car</h3>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">₹50,000 Cash Prize (4 Winners)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">15 Gold Rings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Month 2 -->
+                    <div class="prize-card flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/riyas-website/riyas/montly/2.png" alt="Bajaj Pulsar" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="text-sm text-blue-600 font-semibold">Month 2</div>
+                            <h3 class="text-xl font-bold mt-2">Bajaj Pulsar Bike</h3>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">₹25,000 Worth Gold (6 Winners)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">15 Gold Rings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Months 3-14 following same pattern -->
+                    <div class="prize-card flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/riyas-website/riyas/montly/3.png" alt="Honda Activa" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="text-sm text-blue-600 font-semibold">Month 3</div>
+                            <h3 class="text-xl font-bold mt-2">Honda Activa Scooter</h3>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">₹25,000 Worth Gold (6 Winners)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">15 Gold Rings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="prize-card flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/riyas-website/riyas/montly/04.png" alt="TATA Tiago" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="text-sm text-blue-600 font-semibold">Month 4</div>
+                            <h3 class="text-xl font-bold mt-2">TATA Tiago Car</h3>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">₹25,000 Worth Gold (6 Winners)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">15 Gold Rings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="prize-card flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/riyas-website/riyas/montly/5.png" alt="Bajaj Pulsar" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="text-sm text-blue-600 font-semibold">Month 5</div>
+                            <h3 class="text-xl font-bold mt-2">Bajaj Pulsar Bike</h3>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">₹30,000 Worth Gold (7 Winners)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">15 Gold Rings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="prize-card flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/riyas-website/riyas/montly/3.png" alt="Honda Activa" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="text-sm text-blue-600 font-semibold">Month 6</div>
+                            <h3 class="text-xl font-bold mt-2">Honda Activa Scooter</h3>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">₹30,000 Worth Gold (6 Winners)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">15 Gold Rings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="prize-card flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/riyas-website/riyas/montly/7.png" alt="Suzuki Wagon R" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="text-sm text-blue-600 font-semibold">Month 7</div>
+                            <h3 class="text-xl font-bold mt-2">Suzuki Wagon R Car</h3>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">₹30,000 Worth Gold (6 Winners)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">15 Gold Rings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="prize-card flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/riyas-website/riyas/montly/8.png" alt="Bajaj Pulsar" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="text-sm text-blue-600 font-semibold">Month 8</div>
+                            <h3 class="text-xl font-bold mt-2">Bajaj Pulsar Bike</h3>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">₹30,000 Worth Gold (6 Winners)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">15 Gold Rings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="prize-card flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/riyas-website/riyas/montly/9.png" alt="Honda Activa" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="text-sm text-blue-600 font-semibold">Month 9</div>
+                            <h3 class="text-xl font-bold mt-2">Honda Activa Scooter</h3>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">₹30,000 Worth Gold (6 Winners)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">15 Gold Rings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="prize-card flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/riyas-website/riyas/montly/10.png" alt="Suzuki Celerio" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="text-sm text-blue-600 font-semibold">Month 10</div>
+                            <h3 class="text-xl font-bold mt-2">Suzuki Celerio Car</h3>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">₹35,000 Worth Gold (4 Winners)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">15 Gold Rings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="prize-card flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/riyas-website/riyas/montly/11.png" alt="1 Lakh Worth Gold" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="text-sm text-blue-600 font-semibold">Month 11</div>
+                            <h3 class="text-xl font-bold mt-2">1 Lakh Worth Gold</h3>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">₹50,000 Cash Prize (3 Winners)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">15 Gold Rings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="prize-card flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/riyas-website/riyas/montly/12.png" alt="Bajaj Pulsar" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="text-sm text-blue-600 font-semibold">Month 12</div>
+                            <h3 class="text-xl font-bold mt-2">Bajaj Pulsar Bike</h3>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">₹50,000 Cash Prize (2 Winners)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">15 Gold Rings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="prize-card flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/riyas-website/riyas/montly/13.png" alt="Honda Activa" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="text-sm text-blue-600 font-semibold">Month 13</div>
+                            <h3 class="text-xl font-bold mt-2">Honda Activa Scooter</h3>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">₹50,000 Cash Prize (4 Winners)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">15 Gold Rings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add remaining months here with the same structure -->
+                    <!-- Month 14 -->
+                    <div class="prize-card flex-shrink-0 w-80 bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="/riyas-website/riyas/montly/14.png" alt="Suzuki Swift" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="text-sm text-blue-600 font-semibold">Month 14</div>
+                            <h3 class="text-xl font-bold mt-2">Suzuki Swift Car</h3>
+                            <div class="mt-4 space-y-2">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">₹50,000 Worth Gold</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-yellow-500">●</span>
+                                    <span class="ml-2">15 Gold Rings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Indicator -->
+            <div class="mt-8 flex justify-center gap-2">
+                <div id="progress" class="w-full max-w-md h-1 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="progress-bar w-1/14 h-full bg-blue-600 transition-all duration-300"></div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <span id="currentMonth" class="font-semibold">Month 1</span>
+                <span class="text-gray-500"> of 14</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consolation Prizes -->
+    <section id="consolation" class="py-12 md:py-20 bg-gray-50">
+        <div class="container mx-auto px-4 md:px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Consolation Prizes</h2>
+            <p class="text-gray-600 text-center mb-8 md:mb-16 max-w-2xl mx-auto text-sm md:text-base">Every participant has a chance to win these amazing household items.</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-10">
+                <!-- 1. Mixer Grinder -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/1new.png" 
+                             alt="Mixer Grinder" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            Sujatha Mixer Grinder & Gas Stove 3 Burner
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Kitchen Essential</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Smart TV -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/2.png" 
+                             alt="Smart TV" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div><br>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            32" Android Smart TV
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Entertainment</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <!-- 3. Washing Machine -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/3new.png" 
+                             alt="Washing Machine" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div><br>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            Washing Machine
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Home Appliance</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Premium Cycle -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/4.png" 
+                             alt="Premium Cycle" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div><br>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            Premium Cycle
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Fitness & Travel</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Grinder & Hot Box -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/5.png" 
+                             alt="Table Top Grinder" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            Table Top Grinder & Hot Box
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Kitchen Essential</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Home Theatre -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/6.png" 
+                             alt="Home Theatre" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            Home Theatre & Bluetooth Speaker
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Entertainment</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. Gas Stove -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/7new.png" 
+                             alt="Gas Stove" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            Glass Gas Stove 3 Burner & 3 Jar Mixer
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Kitchen Essential</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. Cooler & Rice Cooker -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/8.png" 
+                             alt="Cooler" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div><br>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            Cooler & Rice Cooker
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Home Appliance</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. Water Heater -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/9.png" 
+                             alt="Water Heater" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            Water Heater & Ceiling Fan
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Home Comfort</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10. Kitchen Oven -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/10.png" 
+                             alt="Kitchen Oven" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            Kitchen Oven & Cooker 10Ltr
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Kitchen Essential</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 11. Vacuum Cleaner -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/11.png" 
+                             alt="Vacuum Cleaner" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div><br>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            Vacuum Cleaner
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Home Care</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12. Sitout Bench -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/12.png" 
+                             alt="Sitout Bench" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div><br>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            Sitout Bench & Tea Poy
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Furniture</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 13. Coat -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/13.png" 
+                             alt="Coat" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div><br><br>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            Coat 5x6
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Furniture</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 14. Kaboard -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/14new.png" 
+                             alt="Kaboard" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            2 Door Kaboard, Dressing Table & Tea Poy
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Furniture</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 15. Sofa -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/15a.png" 
+                             alt="Sofa" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div><br><br>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            3 Seater Sofa & Tea Poy
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Furniture</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 16. Stitching Machine -->
+                <div class="prize-card bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                    <div class="relative w-full h-64 md:h-72 lg:h-80 flex items-center justify-center bg-gray-50 overflow-hidden">
+                        <img src="/riyas-website/riyas/consolation/16.png" 
+                             alt="Stitching Machine" 
+                             class="w-[90%] h-[90%] object-contain transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div><br>
+                    <div class="p-6 md:p-8 text-center">
+                        <h3 class="font-semibold text-lg md:text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+                            Stitching Machine and Cabinet
+                        </h3>
+                        <div class="mt-4 flex items-center justify-center gap-4">
+                            <span class="text-base md:text-lg text-gray-500">Home Business</span>
+                            <span class="bg-blue-100 text-blue-800 text-base px-4 py-1 rounded-full">Premium</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- Terms & Conditions Section -->
+    <section id="terms" class="py-20 bg-gradient-to-b from-gray-50 to-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+                    Terms & Conditions
+                </h3>
+                <p class="text-gray-600 text-lg">Please read our terms carefully</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 max-w-4xl mx-auto backdrop-blur-sm border border-gray-100">
+                <ul class="space-y-6">
+                    <!-- Term 1 -->
+                    <li class="flex items-start transform transition-transform duration-300 hover:translate-x-2">
+                        <span class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 text-lg">•</span>
+                        </span>
+                        <div class="flex-1">
+                            <p class="text-gray-800 text-lg font-medium">First installment starts from 15-01-2025</p>
+                        </div>
+                    </li>
+
+                    <!-- Term 2 -->
+                    <li class="flex items-start transform transition-transform duration-300 hover:translate-x-2">
+                        <span class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 text-lg">•</span>
+                        </span>
+                        <div class="flex-1">
+                            <p class="text-gray-800 text-lg font-medium">Each member shall pay monthly installments of Rs.1000 in 14 installments</p>
+                        </div>
+                    </li>
+
+                    <!-- Term 3 -->
+                    <li class="flex items-start transform transition-transform duration-300 hover:translate-x-2">
+                        <span class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 text-lg">•</span>
+                        </span>
+                        <div class="flex-1">
+                            <p class="text-gray-800 text-lg font-medium">Members present at our office on 15th of every month at 7 PM</p>
+                        </div>
+                    </li>
+
+                    <!-- Term 4 -->
+                    <li class="flex items-start transform transition-transform duration-300 hover:translate-x-2">
+                        <span class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 text-lg">•</span>
+                        </span>
+                        <div class="flex-1">
+                            <p class="text-gray-800 text-lg font-medium">Draw will be held in presence, results live on WhatsApp and YouTube</p>
+                        </div>
+                    </li>
+
+                    <!-- Term 5 -->
+                    <li class="flex items-start transform transition-transform duration-300 hover:translate-x-2">
+                        <span class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 text-lg">•</span>
+                        </span>
+                        <div class="flex-1">
+                            <p class="text-gray-800 text-lg font-medium">15 lucky winners who pay monthly installment by 7th eligible for a surprise prize</p>
+                        </div>
+                    </li>
+
+                    <!-- Term 6 -->
+                    <li class="flex items-start transform transition-transform duration-300 hover:translate-x-2">
+                        <span class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 text-lg">•</span>
+                        </span>
+                        <div class="flex-1">
+                            <p class="text-gray-800 text-lg font-medium">Winners do not need to pay the next installment</p>
+                        </div>
+                    </li>
+
+                    <!-- Term 7 -->
+                    <li class="flex items-start transform transition-transform duration-300 hover:translate-x-2">
+                        <span class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 text-lg">•</span>
+                        </span>
+                        <div class="flex-1">
+                            <p class="text-gray-800 text-lg font-medium">EMI option available for those not opting for incentive gifts</p>
+                        </div>
+                    </li>
+
+                    <!-- Term 8 -->
+                    <li class="flex items-start transform transition-transform duration-300 hover:translate-x-2">
+                        <span class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 text-lg">•</span>
+                        </span>
+                        <div class="flex-1">
+                            <p class="text-gray-800 text-lg font-medium">Selected prize will be awarded within 60 days of the draw result</p>
+                        </div>
+                    </li>
+
+                    <!-- Term 9 -->
+                    <li class="flex items-start transform transition-transform duration-300 hover:translate-x-2">
+                        <span class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 text-lg">•</span>
+                        </span>
+                        <div class="flex-1">
+                            <p class="text-gray-800 text-lg font-medium">Incentive Prize is not transferable</p>
+                        </div>
+                    </li>
+
+                    <!-- Term 10 -->
+                    <li class="flex items-start transform transition-transform duration-300 hover:translate-x-2">
+                        <span class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 text-lg">•</span>
+                        </span>
+                        <div class="flex-1">
+                            <p class="text-gray-800 text-lg font-medium">Bumper Prize cannot be substituted for cash</p>
+                        </div>
+                    </li>
+
+                    <!-- Term 11 -->
+                    <li class="flex items-start transform transition-transform duration-300 hover:translate-x-2">
+                        <span class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 text-lg">•</span>
+                        </span>
+                        <div class="flex-1">
+                            <p class="text-gray-800 text-lg font-medium">Non-paying members' tokens excluded from the draw</p>
+                        </div>
+                    </li>
+
+                    <!-- Term 12 -->
+                    <li class="flex items-start transform transition-transform duration-300 hover:translate-x-2">
+                        <span class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 text-lg">•</span>
+                        </span>
+                        <div class="flex-1">
+                            <p class="text-gray-800 text-lg font-medium">Installment amount is not a deposit; transport charges apply outside Kasargod for furniture</p>
+                        </div>
+                    </li>
+
+                    <!-- Term 13 -->
+                    <li class="flex items-start transform transition-transform duration-300 hover:translate-x-2">
+                        <span class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <span class="text-blue-600 text-lg">•</span>
+                        </span>
+                        <div class="flex-1">
+                            <p class="text-gray-800 text-lg font-medium">Payments only through authorized UPI/scanners; non-refundable</p>
+                        </div>
+                    </li>
+
+                </ul>
+
+                <!-- Important Notice Box -->
+                <div class="mt-12 bg-blue-50 rounded-xl p-6 border-l-4 border-blue-600">
+                    <div class="flex items-center mb-4">
+                        <svg class="w-6 h-6 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-blue-800">Important Notice</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <p class="text-blue-900 font-medium">• Prize registration amount and all government taxes are to be borne by the winners.</p>
+                        <p class="text-blue-900 font-medium">• Organizers' decision is final and binding.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+ 
+
+
+
+    <!-- Contact -->
+    <section id="contact" class="py-20 bg-gray-900 text-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-4xl font-bold mb-8">Visit Our Showroom</h2>
+                <div class="glass-effect rounded-xl p-8">
+                    <p class="mb-4">Shop no: 1207, Meepiri Center</p>
+                    <p class="mb-4">Second Floor, Kumbala, P.O Kumbala</p>
+                    <p class="mb-4">Kasaragod, Kerala, India</p>
+                    <div class="mt-8">
+                        <p class="text-xl font-semibold mb-2">Contact Us</p>
+                        <div class="flex justify-center space-x-4">
+                            <a href="tel:9061513413" class="hover:text-blue-400 transition">9061513413</a>
+                            <a href="tel:9539732282" class="hover:text-blue-400 transition">9539732282</a>
+                            <a href="tel:8848569094" class="hover:text-blue-400 transition">8848569094</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+</body>
+</html>
